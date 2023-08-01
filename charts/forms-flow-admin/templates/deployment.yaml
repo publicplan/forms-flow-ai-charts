@@ -22,16 +22,20 @@ spec:
     spec:
       containers:
       - env:
+        {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.usernameKey }}
         - name: DATABASE_USERNAME
           valueFrom:
-            configMapKeyRef:
-              key: DATABASE_PASSWORD
-              name: "{{ .Values.formsflow.configmap }}"
-        - name: DATABASE_NAME
+            secretKeyRef:
+              key: {{ .Values.postgresql.externalSecret.usernameKey }}
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+        {{- end }}
+        {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
+        - name: DATABASE_PASSWORD
           valueFrom:
             configMapKeyRef:
-              key: DATABASE_NAME
-              name: "{{ .Values.formsflow.configmap }}"
+              key: {{ .Values.postgresql.externalSecret.passwordKey }}
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+        {{- end }}
         - name: DATABASE_NAME
           valueFrom:
             configMapKeyRef:

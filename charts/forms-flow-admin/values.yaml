@@ -1,7 +1,13 @@
 ---
 Domain: #<DEFINE ME>
 postgresql:
-  url: "postgresql://postgres:postgres@forms-flow-ai-postgresql-ha-pgpool:5432/{{.Chart.Name}}"
+  secretName: forms-flow-ai-admin-postgres-secret
+  url: "postgresql://postgres:postgres@forms-flow-ai-postgresql-ha-pgpool:5432/{{ .Chart.Name }}"
+
+  externalSecret:
+    name: 
+    usernameKey: 'postgres'
+    passwordKey: 'postgres'
 
 resources:
   limits:

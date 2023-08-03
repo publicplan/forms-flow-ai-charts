@@ -29,6 +29,26 @@ spec:
         - secretRef:
             name: "{{ .Chart.Name }}" # default redash environment variables
         env:
+        - name: REDASH_DATABASE_USERNAME
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.usernameKey }}
+          valueFrom:
+            secretKeyRef:
+              key: "{{ .Values.postgresql.externalSecret.usernameKey }}"
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.username }}"
+          {{- end }}
+        - name: REDASH_DATABASE_PASSWORD
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
+          valueFrom:
+            configMapKeyRef:
+              key: {{ .Values.postgresql.externalSecret.passwordKey }}
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.password }}"
+          {{- end }}
+        - name: REDASH_DATABASE_URL
+          value: postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Chart.Name}}""
         - name: REDASH_WEB_WORKERS
           value: "4"
         - name: GUNICORN_CMD_ARGS
@@ -82,6 +102,26 @@ spec:
         - secretRef:
             name: "{{ .Chart.Name }}" # default redash environment variables
         env: 
+        - name: REDASH_DATABASE_USERNAME
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.usernameKey }}
+          valueFrom:
+            secretKeyRef:
+              key: "{{ .Values.postgresql.externalSecret.usernameKey }}"
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.username }}"
+          {{- end }}
+        - name: REDASH_DATABASE_PASSWORD
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
+          valueFrom:
+            configMapKeyRef:
+              key: {{ .Values.postgresql.externalSecret.passwordKey }}
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.password }}"
+          {{- end }}
+        - name: REDASH_DATABASE_URL
+          value: postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Chart.Name}}""
         - name: WORKERS_COUNT
           value: "2"
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
@@ -124,6 +164,26 @@ spec:
         - secretRef:
             name: "{{ .Chart.Name }}" # default redash environment variables
         env:
+        - name: REDASH_DATABASE_USERNAME
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.usernameKey }}
+          valueFrom:
+            secretKeyRef:
+              key: "{{ .Values.postgresql.externalSecret.usernameKey }}"
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.username }}"
+          {{- end }}
+        - name: REDASH_DATABASE_PASSWORD
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
+          valueFrom:
+            configMapKeyRef:
+              key: {{ .Values.postgresql.externalSecret.passwordKey }}
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.password }}"
+          {{- end }}
+        - name: REDASH_DATABASE_URL
+          value: postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Chart.Name}}""
         - name: WORKERS_COUNT
           value: "1"
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
@@ -164,6 +224,27 @@ spec:
             name: "{{ .Chart.Name }}" # default redash environment variables
         - secretRef:
             name: "{{ .Chart.Name }}" # default redash environment variables
+        env:
+        - name: REDASH_DATABASE_USERNAME
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.usernameKey }}
+          valueFrom:
+            secretKeyRef:
+              key: "{{ .Values.postgresql.externalSecret.usernameKey }}"
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.username }}"
+          {{- end }}
+        - name: REDASH_DATABASE_PASSWORD
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
+          valueFrom:
+            configMapKeyRef:
+              key: {{ .Values.postgresql.externalSecret.passwordKey }}
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.password }}"
+          {{- end }}
+        - name: REDASH_DATABASE_URL
+          value: postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Chart.Name}}""
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
         name: "{{ .Chart.Name }}-scheduler"
         imagePullPolicy: Always
@@ -204,6 +285,26 @@ spec:
         - secretRef:
             name: "{{ .Chart.Name }}" # default redash environment variables
         env:
+        - name: REDASH_DATABASE_USERNAME
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.usernameKey }}
+          valueFrom:
+            secretKeyRef:
+              key: "{{ .Values.postgresql.externalSecret.usernameKey }}"
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.username }}"
+          {{- end }}
+        - name: REDASH_DATABASE_PASSWORD
+          {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
+          valueFrom:
+            configMapKeyRef:
+              key: {{ .Values.postgresql.externalSecret.passwordKey }}
+              name: "{{ .Values.postgresql.externalSecret.name }}"
+          {{- else }}
+          value: "{{ .Values.postgresql.password }}"
+          {{- end }}
+        - name: REDASH_DATABASE_URL
+          value: postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Chart.Name}}""
         - name: QUEUES
           value: "periodic_emails,default"
         - name: WORKERS_COUNT

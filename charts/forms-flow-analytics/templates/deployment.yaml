@@ -114,7 +114,7 @@ spec:
         - name: REDASH_DATABASE_PASSWORD
           {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: {{ .Values.postgresql.externalSecret.passwordKey }}
               name: "{{ .Values.postgresql.externalSecret.name }}"
           {{- else }}
@@ -176,7 +176,7 @@ spec:
         - name: REDASH_DATABASE_PASSWORD
           {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: {{ .Values.postgresql.externalSecret.passwordKey }}
               name: "{{ .Values.postgresql.externalSecret.name }}"
           {{- else }}
@@ -237,7 +237,7 @@ spec:
         - name: REDASH_DATABASE_PASSWORD
           {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: {{ .Values.postgresql.externalSecret.passwordKey }}
               name: "{{ .Values.postgresql.externalSecret.name }}"
           {{- else }}
@@ -297,7 +297,7 @@ spec:
         - name: REDASH_DATABASE_PASSWORD
           {{- if and .Values.postgresql.externalSecret .Values.postgresql.externalSecret.name .Values.postgresql.externalSecret.passwordKey }}
           valueFrom:
-            configMapKeyRef:
+            secretKeyRef:
               key: {{ .Values.postgresql.externalSecret.passwordKey }}
               name: "{{ .Values.postgresql.externalSecret.name }}"
           {{- else }}

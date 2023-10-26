@@ -217,6 +217,9 @@ spec:
         - mountPath: /tmp/{{ .Chart.Name }}-config.template
           name: {{ .Chart.Name }}-config-template
           readOnly: true
+        {{- if .Values.extraVolumeMounts }}
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth }}"
       restartPolicy: Always
@@ -225,5 +228,8 @@ spec:
           defaultMode: 420
           name: {{ .Chart.Name }}-config.template
         name: {{ .Chart.Name }}-config-template
+      {{- if .Values.extraVolumes }}
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
       - emptyDir: {}
         name: tmpfs

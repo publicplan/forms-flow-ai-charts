@@ -83,3 +83,5 @@ hpa:
 elastic_search:
   enabled: false
 waitFor: "${CAMUNDA_DATABASE_SERVICE_NAME}:${CAMUNDA_DATABASE_PORT}"
+
+extraEnv: {}

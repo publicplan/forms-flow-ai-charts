@@ -187,7 +187,11 @@ spec:
             secretKeyRef:
               key: REDIS_PASSCODE
               name: "{{ .Values.formsflow.secret }}"
-
+        {{- if .Values.extraEnv }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Chart.Name }}
+        {{- end }}
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: Always
         livenessProbe:

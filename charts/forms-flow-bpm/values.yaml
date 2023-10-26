@@ -77,3 +77,5 @@ resources:
     memory: 512Mi
 
 waitFor: "${CAMUNDA_DATABASE_SERVICE_NAME}:${CAMUNDA_DATABASE_PORT}"
+
+extraEnv: {}

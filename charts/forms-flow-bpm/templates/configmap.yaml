@@ -14,6 +14,7 @@ data:
   WEBSOCKET_MESSAGE_TYPE: "{{ .Values.camunda.websocket.messageType }}"
   WEBSOCKET_SECURITY_ORIGIN: {{ ternary  (.Values.camunda.websocket.securityOrigin | quote) (randAlphaNum 6 | quote) (kindIs "string" .Values.camunda.websocket.securityOrigin) }}
   BPM_BASE_URL: "https://{{tpl .Values.ingress.hostname .}}"
+  {{- include "Values.extractKeyValuePairs" . | nindent 2 }}
 kind: ConfigMap
 metadata:
   labels:

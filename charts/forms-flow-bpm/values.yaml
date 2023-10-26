@@ -81,3 +81,5 @@ hpa:
   maxReplicas: 3
 
 waitFor: "${CAMUNDA_DATABASE_SERVICE_NAME}:${CAMUNDA_DATABASE_PORT}"
+
+extraEnv: {}

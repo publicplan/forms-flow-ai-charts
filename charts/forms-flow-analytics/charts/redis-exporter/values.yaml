@@ -12,6 +12,8 @@ redis:
 persistentVolumeClaim:
   size: 2Gi 
   storageClass: ""
+
+## Resources used for Redis and Exporter
 resources:
   limits:
     cpu: 60m

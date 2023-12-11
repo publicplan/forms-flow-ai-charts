@@ -20,6 +20,10 @@ spec:
       labels:
         app: "{{ .Chart.Name }}"
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 8 }}
+      {{- end }}       
       containers:
       - name: filebeat-api
         image: docker.elastic.co/beats/filebeat:7.14.0
@@ -172,6 +176,10 @@ spec:
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: "{{ .Chart.Name }}"
         imagePullPolicy: Always
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }}            
         ports:
         - containerPort: {{ .Values.ingress.port }}
         resources:

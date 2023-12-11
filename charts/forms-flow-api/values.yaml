@@ -15,6 +15,10 @@ postgresql:
     usernameKey: username
     passwordKey: password
 
+initContainers: []
+
+command: []
+
 resources:
   limits:
     cpu: 300m

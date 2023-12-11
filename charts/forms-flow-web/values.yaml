@@ -11,8 +11,8 @@ web:
   base_custom_url: ""
   custom_theme_url: ""
 ingress:
-  ingressClassName: ""
   annotations:
+  ingressClassName: ""
   enabled: true # create an ingress for this component 
   hostname: "{{.Chart.Name}}-{{.Release.Namespace}}.{{tpl .Values.Domain .}}"
   port: 8080
@@ -20,6 +20,7 @@ ingress:
   selfSigned: false
   extraTls:
    - {}
+command: {}
 resources:
   limits:
     cpu: 200m

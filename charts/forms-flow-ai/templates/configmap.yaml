@@ -20,11 +20,12 @@ data:
   FORMIO_URL: https://{{tpl (index .Values "forms-flow-forms" "ingress" "hostname") .}}
   FORMIO_DOMAIN: https://{{tpl (index .Values "forms-flow-forms" "ingress" "hostname") .}}
   WEB_API_URL: https://{{tpl (index .Values "forms-flow-api" "ingress" "hostname") .}}
-  MONGODB_URI:  {{ ternary (tpl "mongodb://{{ .Values.mongodb.auth.usernames | first }}:{{ .Values.mongodb.auth.passwords | first }}@{{ .Values.mongodb.service.nameOverride }}:{{ .Values.mongodb.service.ports.mongodb }}/{{ .Values.mongodb.auth.databases | first }}" .) "<DEFINE_ME>" .Values.mongodb.enabled | quote }} 
   {{- if .Values.mongodb.enabled }} 
   NODE_CONFIG: '{"mongo":"mongodb://{{ .Values.mongodb.auth.usernames | first }}:{{ .Values.mongodb.auth.passwords | first }}@{{ .Values.mongodb.service.nameOverride }}:{{ .Values.mongodb.service.ports.mongodb }}/{{ .Values.mongodb.auth.databases | first }}"}'
+  MONGODB_URI:  {{ ternary (tpl "mongodb://{{ .Values.mongodb.auth.usernames | first }}:{{ .Values.mongodb.auth.passwords | first }}@{{ .Values.mongodb.service.nameOverride }}:{{ .Values.mongodb.service.ports.mongodb }}/{{ .Values.mongodb.auth.databases | first }}" .) "<DEFINE_ME>" .Values.mongodb.enabled | quote }}
   {{- else }}
-  NODE_CONFIG: "<DEFINE_ME>"
+  MONGODB_URI:  {{ ternary (tpl "mongodb+srv://{{ .Values.mongodb.auth.usernames | first }}:{{ .Values.mongodb.auth.passwords | first }}@{{ .Values.mongodb.service.nameOverride }}/{{ .Values.mongodb.auth.databases | first }}" .) "<DEFINE_ME>" .Values.mongodb.enabled | quote }} 
+  NODE_CONFIG: '{"mongo":"mongodb+srv://{{ .Values.mongodb.auth.usernames | first }}:{{ .Values.mongodb.auth.passwords | first }}@{{ .Values.mongodb.service.nameOverride }}/{{ .Values.mongodb.auth.databases | first }}"}'
   {{- end }}
   FORMSFLOW_WEB_URL: https://{{tpl (index .Values "forms-flow-web" "ingress" "hostname") .}}
   FORMSFLOW_ADMIN_URL: https://{{tpl (index .Values "forms-flow-admin" "ingress" "hostname") .}}/api/v1
@@ -45,4 +46,8 @@ data:
   REDIS_PORT: "{{.Values.redis_port}}"
   REDIS_ENABLED: "false"
   CHROME_DRIVER_PATH: "/usr/local/bin/chromedriver"
+  ENABLE_CHATBOT: "false"
+  CHATBOT_URL: "https://{{tpl (index .Values "forms-flow-data-analysis" "ingress" "hostname") .}}/conversations"
+  ENABLE_LOW_CODE_DESIGNER: "false"
+  ELASTIC_SERVER: "{{.Values.elastic_server}}"
 

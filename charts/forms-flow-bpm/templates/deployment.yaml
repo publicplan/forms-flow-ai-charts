@@ -187,6 +187,11 @@ spec:
             secretKeyRef:
               key: REDIS_PASSCODE
               name: "{{ .Values.formsflow.secret }}"
+        - name: KEYCLOAK_URL_HTTP_RELATIVE_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: KEYCLOAK_URL_HTTP_RELATIVE_PATH
+              name: "{{ .Values.formsflow.configmap }}"
         {{- if .Values.extraEnv }}
         envFrom:
         - configMapRef:

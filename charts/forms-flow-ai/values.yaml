@@ -34,31 +34,14 @@ forms-flow-bpm:
     hostname: forms-flow-bpm-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
   clientid: "forms-flow-bpm"
   clientsecret: "786001d6-68a8-4519-903c-bc5b5a870d68"
-  ingress:
-      hostname: forms-flow-bpm-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
+
 forms-flow-forms:
-  ingress:
-    hostname: forms-flow-forms-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
   admin:
     email: "me@defineme.com"
     password: "admin"
   ingress:
     hostname: forms-flow-forms-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
-forms-flow-api:
-  ingress:
-      hostname: forms-flow-api-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
-forms-flow-admin:
-  ingress:
-      hostname: forms-flow-admin-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
-forms-flow-documents-api:
-  ingress:
-      hostname: forms-flow-documents-api-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
-forms-flow-data-analysis:
-  ingress:
-      hostname: forms-flow-data-analysis-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
-forms-flow-analytics:
-  ingress:
-      hostname: forms-flow-analytics-{{.Release.Namespace}}.{{tpl (.Values.Domain) .}}
+
 forms-flow-idm:
   keycloak:
     ingress:
@@ -138,11 +121,11 @@ mongodb:
   arbiter:
     enabled: false
     podSecurityContext:
-    enabled: false
-    fsGroup: 1001
+      enabled: false
+      fsGroup: 1001
     containerSecurityContext:
-    enabled: false
-    runAsUser: 1001
+      enabled: false
+      runAsUser: 1001
 
 websocket_encrypt_key: "FormsFlow.AI"
 insight_api_key: ""

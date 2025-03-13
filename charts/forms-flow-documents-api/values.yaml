@@ -32,3 +32,6 @@ hpa:
   maxReplicas: 3
 elastic_search:
   enabled: false
+extraVolumes: []
+extraVolumeMounts: []
+extraEnv: {}

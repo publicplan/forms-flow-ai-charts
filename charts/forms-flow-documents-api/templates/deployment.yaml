@@ -114,6 +114,11 @@ spec:
             configMapKeyRef:
               key: FORMSFLOW_DOC_API_URL
               name: "{{ .Values.formsflow.configmap }}"
+        {{- if .Values.extraEnv }}
+        envFrom:
+        - configMapRef:
+            name: {{ .Chart.Name }}
+        {{- end }}
         
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: "{{ .Chart.Name }}"
@@ -129,7 +134,10 @@ spec:
             memory: "{{ .Values.resources.requests.memory }}"
         stdin: true
         tty: true
-
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       {{- if .Values.elastic_search.enabled }} 
         volumeMounts:
         - name: documents-logs
@@ -139,6 +147,10 @@ spec:
       - name: documents-filebeat
         configMap:
           name: "{{ .Chart.Name }}-fb-config"
+      {{- end }}
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
       {{- end }}
       restartPolicy: Always
       imagePullSecrets:

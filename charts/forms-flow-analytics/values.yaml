@@ -65,3 +65,12 @@ resources:
   requests:
     cpu: 180m
     memory: 1Gi
+
+initContainers: []
+command: []
+# used to add extra environment variables
+# extraEnv:
+#   key: value
+extraEnv: {}
+extraVolumes: []
+extraVolumeMounts: []

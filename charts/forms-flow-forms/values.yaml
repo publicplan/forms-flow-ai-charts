@@ -32,3 +32,12 @@ hpa:
   enabled: false 
   CpuAverageUtilization: 70
   maxReplicas: 3
+
+initContainers: []
+command: []
+# used to add extra environment variables
+# extraEnv:
+#   key: value
+extraEnv: {}
+extraVolumes: []
+extraVolumeMounts: []

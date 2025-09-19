@@ -22,7 +22,7 @@ spec:
     spec:
       {{- if .Values.initContainers }}
       initContainers:
-        {{- toYaml .Values.initContainers | nindent 8 }}
+        {{- toYaml .Values.initContainers | nindent 6 }}
       {{- end }}       
       containers:
       {{- if .Values.elastic_search.enabled }} 
@@ -172,16 +172,18 @@ spec:
             secretKeyRef:
               key: FORMIO_JWT_SECRET
               name: "{{ .Values.formsflow.secret }}"
-
         - name: FORMSFLOW_API_CORS_ORIGINS
           value: '*'
-        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        name: "{{ .Chart.Name }}"
-        imagePullPolicy: Always
+        {{- if .Values.extraEnv }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
+        {{- end }}
         {{- if .Values.command }}
         command:
           {{- toYaml .Values.command | nindent 8 }}
-        {{- end }}            
+        {{- end }}    
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: "{{ .Chart.Name }}"
+        imagePullPolicy: Always       
         ports:
         - containerPort: {{ .Values.ingress.port }}
         resources:
@@ -193,6 +195,10 @@ spec:
             memory: "{{ .Values.resources.requests.memory }}"
         stdin: true
         tty: true
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
      {{- if .Values.elastic_search.enabled }} 
         volumeMounts:
         - name: api-logs
@@ -203,6 +209,10 @@ spec:
         configMap:
           name: "{{ .Chart.Name }}-fb-config"
      {{- end}}
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
       restartPolicy: Always
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth }}"

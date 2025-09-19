@@ -20,6 +20,10 @@ spec:
         app: "{{ .Chart.Name }}-server"
       name: "{{ .Chart.Name }}-server"
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}    
       containers:
       - args:
         - server
@@ -55,6 +59,13 @@ spec:
           value: "--timeout 300"
         - name: REDASH_MULTI_ORG
           value: "{{ .Values.redash.multiorg}}"
+        {{- if .Values.extraEnv }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }}   
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
         imagePullPolicy: Always
         lifecycle:
@@ -72,9 +83,17 @@ spec:
           requests:
             cpu: "{{ .Values.resources.requests.cpu }}"
             memory: "{{ .Values.resources.requests.memory }}"
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       restartPolicy: Always
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth}}"
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -93,6 +112,10 @@ spec:
       labels:
         app: "{{ .Chart.Name }}-adhoc-worker"
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}    
       containers:
       - args:
         - worker
@@ -124,6 +147,13 @@ spec:
           value: "postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Values.postgresql.database}}"
         - name: WORKERS_COUNT
           value: "2"
+        {{- if .Values.extraEnv }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }}    
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
         name: "{{ .Chart.Name }}-adhoc-worker"
         imagePullPolicy: Always
@@ -134,9 +164,17 @@ spec:
           requests:
             cpu: "{{ .Values.resources.requests.cpu }}"
             memory: "{{ .Values.resources.requests.memory }}"
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       restartPolicy: Always
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth}}"
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -155,6 +193,10 @@ spec:
       labels:
         app: "{{ .Chart.Name }}-scheduled-worker"
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}    
       containers:
       - args:
         - worker
@@ -186,6 +228,13 @@ spec:
           value: "postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Values.postgresql.database}}"
         - name: WORKERS_COUNT
           value: "1"
+        {{- if .Values.extraEnv }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }}    
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
         name: "{{ .Chart.Name }}-scheduled-worker"
         resources:
@@ -195,9 +244,17 @@ spec:
           requests:
             cpu: "{{ .Values.resources.requests.cpu }}"
             memory: "{{ .Values.resources.requests.memory }}"
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       restartPolicy: Always
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth}}"
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -216,6 +273,10 @@ spec:
       labels:
         app: "{{ .Chart.Name }}-scheduler"
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}    
       containers:
       - args:
         - scheduler
@@ -245,6 +306,13 @@ spec:
           {{- end }}
         - name: REDASH_DATABASE_URL
           value: "postgresql://$(REDASH_DATABASE_USERNAME):$(REDASH_DATABASE_PASSWORD)@{{.Values.postgresql.host}}:{{.Values.postgresql.port}}/{{.Values.postgresql.database}}"
+        {{- if .Values.extraEnv }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }}    
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
         name: "{{ .Chart.Name }}-scheduler"
         imagePullPolicy: Always
@@ -255,9 +323,17 @@ spec:
           requests:
             cpu: "{{ .Values.resources.requests.cpu }}"
             memory: "{{ .Values.resources.requests.memory }}"
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       restartPolicy: Always
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth}}"
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -276,6 +352,10 @@ spec:
       labels:
         app: "{{ .Chart.Name }}-worker"
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}    
       containers:
       - args:
         - worker
@@ -309,6 +389,13 @@ spec:
           value: "periodic_emails,default"
         - name: WORKERS_COUNT
           value: "1"
+        {{- if .Values.extraEnv }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }}    
         image: "{{ .Values.redash.image.registry}}/{{ .Values.redash.image.repository }}:{{ .Values.redash.image.tag }}"
         name: "{{ .Chart.Name }}-worker"
         imagePullPolicy: Always
@@ -319,6 +406,14 @@ spec:
           requests:
             cpu: "{{ .Values.resources.requests.cpu }}"
             memory: "{{ .Values.resources.requests.memory }}"
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       restartPolicy: Always
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth}}"
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}

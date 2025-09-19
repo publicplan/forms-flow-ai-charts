@@ -6,7 +6,9 @@ metadata:
     app: {{ .Chart.Name }}
   name: {{ .Chart.Name }}
 data:
+  {{- if .Values.database.url }}
   DATABASE_URL: "{{tpl .Values.database.url .}}"
+  {{- end }}  
 ---
 {{- if .Values.elastic_search.enabled }} 
 apiVersion: v1

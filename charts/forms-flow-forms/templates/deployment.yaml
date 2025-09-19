@@ -19,6 +19,10 @@ spec:
       labels:
         app: {{ .Chart.Name }}
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}
       containers:
       - env:
         - name: NODE_CONFIG
@@ -51,6 +55,13 @@ spec:
             configMapKeyRef:
               key: MULTI_TENANCY_ENABLED
               name: "{{ .Values.formsflow.configmap }}"
+        {{- if .Values.extraEnv }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }} 
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: Always
         livenessProbe:
@@ -83,6 +94,10 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         tty: true
+        {{- if .Values.extraVolumeMounts }}
+        volumeMounts:
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
       imagePullSecrets:
       - name: "{{ .Values.formsflow.auth }}"
       dnsPolicy: ClusterFirst
@@ -90,3 +105,7 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
+      {{- if .Values.extraVolumes }}
+      volumes:
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}

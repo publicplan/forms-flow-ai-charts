@@ -29,6 +29,10 @@ spec:
                 values:
                 - "{{ .Chart.Name }}"
             topologyKey: kubernetes.io/hostname
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}
       containers:
       {{- if .Values.elastic_search.enabled }}
       - name: filebeat-bpm
@@ -187,11 +191,10 @@ spec:
             secretKeyRef:
               key: REDIS_PASSCODE
               name: "{{ .Values.formsflow.secret }}"
-        {{- if .Values.extraEnv }}
-        envFrom:
-        - configMapRef:
-            name: {{ .Chart.Name }}
-        {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }} 
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: Always
         livenessProbe:
@@ -231,6 +234,9 @@ spec:
         - mountPath: /app/mail-config.properties
           name: "{{ .Chart.Name }}-mail-config"
           subPath: mail-config.properties
+        {{- if .Values.extraVolumeMounts }}
+          {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}s
      {{- if .Values.elastic_search.enabled }}
         - name: bpm-logs
           mountPath: /logs
@@ -243,6 +249,9 @@ spec:
             path: mail-config.properties
           name: "{{ .Chart.Name }}-mail-config"
         name: "{{ .Chart.Name }}-mail-config"
+      {{- if .Values.extraVolumes }}
+        {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
      {{- if .Values.elastic_search.enabled }}
       - name: bpm-logs
       - name: bpm-filebeat

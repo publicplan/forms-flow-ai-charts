@@ -32,6 +32,12 @@ hpa:
   maxReplicas: 3
 elastic_search:
   enabled: false
+
+initContainers: []
+command: []
+# used to add extra environment variables
+# extraEnv:
+#   key: value
+extraEnv: {}
 extraVolumes: []
 extraVolumeMounts: []
-extraEnv: {}

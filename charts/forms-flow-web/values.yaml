@@ -20,7 +20,6 @@ ingress:
   selfSigned: false
   extraTls:
    - {}
-command: {}
 resources:
   limits:
     cpu: 200m
@@ -35,6 +34,9 @@ image:
 config_path: /usr/share/nginx/html/config/
 webclient: "{{.Chart.Name}}"
 webname: formsflow
+
+initContainers: []
+command: []
 # used to add extra environment variables
 # extraEnv:
 #   key: value

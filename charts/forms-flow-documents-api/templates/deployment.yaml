@@ -20,6 +20,10 @@ spec:
       labels:
         app: "{{ .Chart.Name }}"
     spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}
       containers:
       {{- if .Values.elastic_search.enabled }} 
       - name: filebeat-documents-api
@@ -115,11 +119,12 @@ spec:
               key: FORMSFLOW_DOC_API_URL
               name: "{{ .Values.formsflow.configmap }}"
         {{- if .Values.extraEnv }}
-        envFrom:
-        - configMapRef:
-            name: {{ .Chart.Name }}
+        {{- include "Values.extractKeyValuePairs" . | nindent 8 }}
         {{- end }}
-        
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }} 
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         name: "{{ .Chart.Name }}"
         imagePullPolicy: Always

@@ -19,7 +19,11 @@ spec:
     metadata:
       labels:
         app: "{{ .Chart.Name }}"
-    spec: 
+    spec:
+      {{- if .Values.initContainers }}
+      initContainers:
+        {{- toYaml .Values.initContainers | nindent 6 }}
+      {{- end }}
       containers:
       - env:
         - name: NODE_ENV
@@ -192,6 +196,10 @@ spec:
         - configMapRef:
             name: {{ .Chart.Name }}
         {{- end }}
+        {{- if .Values.command }}
+        command:
+          {{- toYaml .Values.command | nindent 8 }}
+        {{- end }} 
         image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         lifecycle:
           postStart:

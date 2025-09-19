@@ -1,6 +1,7 @@
 ---
 Domain: #<DEFINE_ME>
 
+
 postgresql:
   host: forms-flow-ai-postgresql-ha-pgpool
   port: 5432
@@ -15,9 +16,9 @@ postgresql:
     usernameKey: username
     passwordKey: password
 
-initContainers: []
-
-command: []
+# not required, just available to keep the template circle, we adapted the url in deployment.yaml to use envVars.
+database:
+  url: {}
 
 resources:
   limits:
@@ -54,3 +55,12 @@ hpa:
   maxReplicas: 3
 elastic_search:
   enabled: false
+
+initContainers: []
+command: []
+# used to add extra environment variables
+# extraEnv:
+#   key: value
+extraEnv: {}
+extraVolumes: []
+extraVolumeMounts: []

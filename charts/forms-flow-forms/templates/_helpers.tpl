@@ -19,9 +19,14 @@
 
 {{- define "Values.extractKeyValuePairsForJson" -}}
 {{- $config := .Values.extraEnv }}
-{{- with $config -}}
+{{- if $config -}}
+{
+{{- $first := true }}
 {{- range $key, $value := $config }}
-{{ quote $key }}: {{ quote $value }},
+{{- if not $first }},{{ end }}
+  {{ quote $key }}: {{ quote $value }}
+{{- $first = false }}
 {{- end }}
+}
 {{- end }}
 {{- end }}

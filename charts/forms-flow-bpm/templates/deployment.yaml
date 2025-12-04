@@ -236,7 +236,7 @@ spec:
           subPath: mail-config.properties
         {{- if .Values.extraVolumeMounts }}
           {{- toYaml .Values.extraVolumeMounts | nindent 8 }}
-        {{- end }}s
+        {{- end }}
      {{- if .Values.elastic_search.enabled }}
         - name: bpm-logs
           mountPath: /logs

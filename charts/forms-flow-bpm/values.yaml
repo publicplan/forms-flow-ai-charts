@@ -11,7 +11,7 @@ postgresql:
   password: postgres
 
   externalSecret:
-    name: 
+    name:
     usernameKey: username
     passwordKey: password
 
@@ -35,7 +35,8 @@ camunda:
       max: 10 #CAMUNDA_HIKARI_MAX_POOLSIZE
   websocket:
     messageType: TASK_EVENT #WEBSOCKET_MESSAGE_TYPE
-    securityOrigin:   #WEBSOCKET_SECURITY_ORIGIN
+    securityOrigin:
+      #WEBSOCKET_SECURITY_ORIGIN
 
 image:
   registry: docker.io
@@ -56,10 +57,11 @@ ingress:
   tls: true
   selfSigned: false
   extraTls:
-   - {}
+  - {}
 
 mail:
   from: "<DEFINE_ME>"
+  alias: "no-reply" #default "no-reply"
   password: "<DEFINE_ME>"
   user: "<DEFINE_ME>"
   smtp:

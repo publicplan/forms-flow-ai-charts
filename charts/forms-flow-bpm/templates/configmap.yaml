@@ -40,7 +40,7 @@ data:
     # additional config
     #mail.poll.folder=INBOX
     mail.sender={{.Values.mail.from}}
-    mail.sender.alias=DoNotReply
+    mail.sender.alias={{.Values.mail.alias}}
     mail.attachment.download=true
     mail.attachment.path=attachments
     # credentials

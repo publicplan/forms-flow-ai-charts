@@ -1,13 +1,15 @@
----
 apiVersion: v2
 name: forms-flow-idm
-version: v7.0.0
+version: v8.3.2
 dependencies:
   - name: keycloak
-    version: 19.1.0
+    version: 24.5.0
     repository: "https://charts.bitnami.com/bitnami"
   - name: postgresql-ha
     condition: postgresql-ha.enabled 
     repository: https://charts.bitnami.com/bitnami
-    version: 13.4.5
+    version: 16.0.15
+  - name: common
+    repository: https://charts.bitnami.com/bitnami
+    version: 2.27.0
 icon: "https://raw.githubusercontent.com/AOT-Technologies/forms-flow-ai/develop/.images/logo.png"

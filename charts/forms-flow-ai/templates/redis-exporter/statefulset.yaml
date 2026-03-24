@@ -104,7 +104,7 @@ spec:
           name: redis-data
           readOnly: false
         {{- if .Values.redisExporter.extraVolumeMounts }}
-        {{- include "common.tplvalues.render" (dict "value" .Values.redisExporter.extraVolumeMounts "context" $) | nindent 12 }}
+        {{- include "common.tplvalues.render" (dict "value" .Values.redisExporter.extraVolumeMounts "context" $) | nindent 8 }}
         {{- end }}
       {{- if .Values.redisExporter.sidecars }}
       {{- include "common.tplvalues.render" ( dict "value" .Values.redisExporter.sidecars "context" $) | nindent 8 }}
@@ -115,7 +115,7 @@ spec:
           name: redis-exporter
         name: conf
       {{- if .Values.redisExporter.extraVolumes }}
-      {{- include "common.tplvalues.render" (dict "value" .Values.redisExporter.extraVolumes "context" $) | nindent 8 }}
+      {{- include "common.tplvalues.render" (dict "value" .Values.redisExporter.extraVolumes "context" $) | nindent 6 }}
       {{- end }}
   {{- if .Values.redisExporter.persistence.enabled }}
   volumeClaimTemplates:

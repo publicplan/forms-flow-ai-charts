@@ -320,7 +320,7 @@ spec:
                 key: URL_PRIVACY_POLICY
                 name: "{{ .Chart.Name }}"          
           {{- if .Values.extraEnvVars }}
-          {{- include "common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 8 }}
+          {{- include "common.tplvalues.render" (dict "value" .Values.extraEnvVars "context" $) | nindent 10 }}
           {{- end }}
           {{- if or .Values.extraEnvVarsCM .Values.extraEnvVarsSecret }}
           envFrom:
@@ -349,9 +349,9 @@ spec:
           - name: forms-flow-web-template-configuration
             mountPath: /tmp/forms-flow-web-config.template
             readOnly: true   
-            {{- if .Values.extraVolumeMounts }}
-            {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 12 }}
-            {{- end }}
+          {{- if .Values.extraVolumeMounts }}
+          {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumeMounts "context" $) | nindent 10 }}
+          {{- end }}
       volumes:
       - name: forms-flow-web-template-configuration
         configMap:
@@ -359,7 +359,7 @@ spec:
           defaultMode: 420
       - name: tmpfs
         emptyDir: {}
-        {{- if .Values.extraVolumes }}
-        {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 8 }}
-        {{- end }}
+      {{- if .Values.extraVolumes }}
+      {{- include "common.tplvalues.render" (dict "value" .Values.extraVolumes "context" $) | nindent 6 }}
+      {{- end }}
       restartPolicy: Always

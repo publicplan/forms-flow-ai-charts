@@ -198,7 +198,7 @@ extraEnvVarsCM: ""
 ##     configMap:
 ##       name: myconfigmap
 ##
-extraVolumes: {}
+extraVolumes: []
           
 ## @param extraVolumeMounts Array to add extra mounts (normally used with extraVolumes, evaluated as a template)
 ## extraVolumeMounts:
@@ -206,7 +206,7 @@ extraVolumes: {}
 ##     name: myvolume
 ##     readOnly: true
 ##
-extraVolumeMounts: {}
+extraVolumeMounts: []
 
 ## @param auth.existingSecret Existing secret containing password,username,dbname and 
   ##

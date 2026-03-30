@@ -327,6 +327,9 @@ spec:
           securityContext: {{- include "common.compatibility.renderSecurityContext" (dict "secContext" .Values.containerSecurityContext "context" $) | nindent 12 }}
           {{- end }}
           image: {{ include "forms-flow-api.nginx.image" . }}
+          {{- if .Values.ExtraContainer.resources }}
+          resources: {{- toYaml .Values.ExtraContainer.resources | nindent 12 }}
+          {{- end }}
           ports:
             - containerPort: {{ .Values.ingress.servicePort }}
           volumeMounts:

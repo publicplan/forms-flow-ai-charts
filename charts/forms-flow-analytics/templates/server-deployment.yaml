@@ -64,8 +64,8 @@ spec:
         - name: nginx
           securityContext: {{ toYaml .Values.server.securityContext | nindent 12 }}
           image: {{ .Values.server.extraContainers.image.registry }}/{{ .Values.server.extraContainers.image.repo }}:{{ .Values.server.extraContainers.image.tag }}
-          {{- if .Values.extraContainers.resources }}
-          resources: {{- toYaml .Values.extraContainers.resources | nindent 12 }}
+          {{- if .Values.server.extraContainers.resources }}
+          resources: {{- toYaml .Values.server.extraContainers.resources | nindent 12 }}
           {{- end }}
           ports:
             - containerPort: {{ .Values.server.extraContainers.ContainerPort }}

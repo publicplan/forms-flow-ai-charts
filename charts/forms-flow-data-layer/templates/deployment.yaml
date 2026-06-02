@@ -191,7 +191,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 key: FORMIO_DB_NAME
-                name: "{{ .Values.formsflow.externalSecret }}"
+                name: "{{ .Values.formsflow.secret }}"
           {{- end }}
           - name: REDIS_URL
             valueFrom:

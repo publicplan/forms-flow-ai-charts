@@ -89,26 +89,34 @@ spec:
               configMapKeyRef:
                 key: FOMRSFLOW_DATA_LAYER_WORKERS
                 name: "{{ .Chart.Name }}"
+          {{- if not .Values.formsflow.webapi.externalSecret }}
           - name: FORMSFLOW_API_DB_HOST
             valueFrom:
               secretKeyRef:
                 key: FORMSFLOW_API_HOSTNAME
                 name: "{{ .Values.formsflow.webapi.secret }}"
+          {{- end }}
+          {{- if not .Values.formsflow.webapi.externalSecret }}
           - name: FORMSFLOW_API_DB_USER
             valueFrom:
               secretKeyRef:
                 key: FORMSFLOW_API_DB_USER
                 name: "{{ .Values.formsflow.webapi.secret }}"
+          {{- end }}
+          {{- if not .Values.formsflow.webapi.externalSecret }}
           - name: FORMSFLOW_API_DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 key: FORMSFLOW_API_DB_PASSWORD
                 name: "{{ .Values.formsflow.webapi.secret }}"
+          {{- end }}
+          {{- if not .Values.formsflow.webapi.externalSecret }}
           - name: FORMSFLOW_API_DB_NAME
             valueFrom:
               secretKeyRef:
                 key: FORMSFLOW_API_DB_NAME
-                name: "{{ .Values.formsflow.webapi.secret }}"
+                name: "{{ .Values.formsflow.webapi.externalSecret }}"
+          {{- end }}
           - name: FORMSFLOW_API_DB_PORT
             valueFrom:
               configMapKeyRef:
@@ -118,12 +126,14 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: FORMSFLOW_DATALAYER_CORS_ORIGINS
-                name: "{{ .Chart.Name }}"               
+                name: "{{ .Chart.Name }}"
+          {{- if not .Values.formsflow.externalSecret }}
           - name: JWT_OIDC_AUDIENCE
             valueFrom:
               secretKeyRef:
                 key: WEB_CLIENTID
                 name: "{{ .Values.formsflow.secret }}"
+          {{- end }}
           - name: JWT_OIDC_CACHING_ENABLED
             valueFrom:
               configMapKeyRef:
@@ -169,46 +179,56 @@ spec:
               configMapKeyRef:
                 key: MULTI_TENANCY_ENABLED
                 name: "{{ .Values.formsflow.configmap }}"
+          {{- if not .Values.formsflow.externalSecret }}
           - name: FORMIO_DB_URI
             valueFrom:
               secretKeyRef:
                 key: MONGODB_URI
                 name: "{{ .Values.formsflow.secret }}"
+          {{- end }}
+          {{- if not .Values.formsflow.externalSecret }}
           - name: FORMIO_DB_NAME
             valueFrom:
               secretKeyRef:
                 key: FORMIO_DB_NAME
-                name: "{{ .Values.formsflow.secret }}"
+                name: "{{ .Values.formsflow.externalSecret }}"
+          {{- end }}
           - name: REDIS_URL
             valueFrom:
               configMapKeyRef:
                 key: REDIS_URL
                 name: "{{ .Values.formsflow.configmap }}"
+          {{- if not .Values.formsflow.bpm.externalSecret }}
           - name: CAMUNDA_DB_PASSWORD
             valueFrom:
               secretKeyRef:
                 key: CAMUNDA_JDBC_PASSWORD
-                name: "{{ .Values.formsflow.bpm.secret }}"
+                name: "{{ .Values.formsflow.bpm.secret }}"             
+          {{- end }}
           - name: KEYCLOAK_URL_HTTP_RELATIVE_PATH
             valueFrom:
               configMapKeyRef:
                 key: KEYCLOAK_URL_HTTP_RELATIVE_PATH
                 name: "{{ .Values.formsflow.configmap }}"
+          {{- if not .Values.formsflow.bpm.externalSecret }}
           - name: CAMUNDA_DB_USER
             valueFrom:
               secretKeyRef:
                 key: CAMUNDA_JDBC_USER
                 name: "{{ .Values.formsflow.bpm.secret }}"
+          {{- end }}
           - name: CAMUNDA_DB_HOST
             valueFrom:
               configMapKeyRef:
                 key: DATABASE_SERVICE_NAME
                 name: "{{ .Values.formsflow.configmap }}"
+          {{- if not .Values.formsflow.bpm.externalSecret }}
           - name: CAMUNDA_DB_NAME
             valueFrom:
               secretKeyRef:
                 key: CAMUNDA_DATABASE_NAME
-                name: "{{ .Values.formsflow.bpm.secret }}"
+                name: "{{ .Values.formsflow.bpm.externalSecret }}"
+          {{- end }}
           - name: CAMUNDA_DB_PORT
             valueFrom:
               configMapKeyRef:

@@ -175,7 +175,64 @@ automountServiceAccountToken: true
 ## extraEnvVars:
 ##   - name: FOO
 ##     value: "bar"
-##
+## ! to be set as soon as own DBs used
+## webapi DB Host
+# - name: FORMSFLOW_API_DB_HOST
+#   valueFrom:
+#     secretKeyRef:
+#       key: MY_WEBAPI_DBHOST_KEY
+#       name: "my-webapi-db-secret"
+## webapi DB User
+# - name: FORMSFLOW_API_DB_USER
+#   valueFrom:
+#     secretKeyRef:
+#       key: MY_WEBAPI_DBUSER_KEY
+#       name: "my-webapi-db-secret"
+## webapi DB Password
+# - name: FORMSFLOW_API_DB_PASSWORD
+#   valueFrom:
+#     secretKeyRef:
+#       key: MY_WEBAPI_DBUSERPASSWORD_KEY
+#       name: "my-webapi-db-secret"
+## webapi DB name
+# - name: FORMSFLOW_API_DB_NAME
+#   valueFrom:
+#     secretKeyRef:
+#       key: MY_WEBAPI_DBNAME_KEY
+#       name: "my-webapi-db-secret"
+## web-container service name 
+# - name: JWT_OIDC_AUDIENCE
+#   value: forms-flow-web
+## Formio DB URI
+# - name: FORMIO_DB_URI
+#   valueFrom:
+#     secretKeyRef:
+#       key: MONGODB_URI
+#       name: "my-formio-db-secret"
+## Formio DB name
+# - name: FORMIO_DB_NAME
+#   valueFrom:
+#     secretKeyRef:
+#       key: FORMIO_DB_NAME
+#       name: "my-formio-db-secret"
+## bpm DB password
+# - name: CAMUNDA_DB_PASSWORD
+#   valueFrom:
+#     secretKeyRef:
+#       key: CAMUNDA_JDBC_PASSWORD
+#       name: "my-bpm-db-secret"
+## bpm DB user
+# - name: CAMUNDA_DB_USER
+#   valueFrom:
+#     secretKeyRef:
+#       key: CAMUNDA_JDBC_USER
+#       name: "my-bpm-db-secret"
+## bpm DB name
+# - name: CAMUNDA_DB_NAME
+#   valueFrom:
+#     secretKeyRef:
+#       key: CAMUNDA_DATABASE_NAME
+#       name: "my-bpm-db-secret"
 extraEnvVars: []
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars
 ##
@@ -514,9 +571,15 @@ Loglevel:
 formsflow:
   configmap: forms-flow-ai # name of formsflow.ai configmap
   secret: forms-flow-ai #name of formsflow.ai secret
+  # if true secret is ignored and values can be set in extraEnvVars
+  externalSecret: false
   bpm:
     configmap: forms-flow-bpm # name of formsflow.ai configmap
     secret: forms-flow-bpm
+    # if true secret is ignored and values can be set in extraEnvVars
+    externalSecret: false
   webapi:
     configmap: forms-flow-api # name of formsflow.ai configmap
-    secret: forms-flow-api  
+    secret: forms-flow-api
+    # if true secret is ignored and values can be set in extraEnvVars
+    externalSecret: false

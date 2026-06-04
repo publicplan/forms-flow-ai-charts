@@ -217,11 +217,13 @@ spec:
                 key: CAMUNDA_JDBC_USER
                 name: "{{ .Values.formsflow.bpm.secret }}"
           {{- end }}
+          {{- if not .Values.formsflow.bpm.externalSecret }}
           - name: CAMUNDA_DB_HOST
             valueFrom:
               configMapKeyRef:
                 key: DATABASE_SERVICE_NAME
                 name: "{{ .Values.formsflow.configmap }}"
+          {{- end }}
           {{- if not .Values.formsflow.bpm.externalSecret }}
           - name: CAMUNDA_DB_NAME
             valueFrom:

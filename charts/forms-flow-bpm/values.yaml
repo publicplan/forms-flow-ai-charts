@@ -611,6 +611,7 @@ camunda:
   IdentityProviderMaxResultSize: "250"
   SessionCookieSecure: "true"
 mail:
+  external: false
   protocol: smtp
   from: "<DEFINE_ME>"
   password: "<DEFINE_ME>"

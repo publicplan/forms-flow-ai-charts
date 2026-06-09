@@ -10,6 +10,17 @@ formsflowdb:
   service:
     ports:
       postgresql: 5432
+forms-flow-ai:
+  ## set to true, if all secret values in this values.yaml file are external to be defined in a separated secret and additional mounted for:
+  ## values.forms-flow-bpm.clientsecret
+  ## values.forms-flow-forms.admin.password
+  ## values.websocket_encrypt_key
+  ## values.insight_api_key
+  ## values.redis_pass_code
+  ## values.ipaas.embedded_api_key
+  ## values.jwt_private_key
+  ##....
+  externalSecret: false
 forms-flow-bpm:
   clientid: "forms-flow-bpm"
   clientsecret: "e4bdbd25-1467-4f7f-b993-bc4b1944c943"

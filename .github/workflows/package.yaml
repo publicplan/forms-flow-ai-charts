@@ -3,7 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - master
+      - feature/actions-expansion
 
 permissions:
   contents: write
@@ -26,10 +26,15 @@ jobs:
         uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
         with:
           version: latest
-      
+
       - name: Package Formsflow 
         uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f
         with:
           charts_dir: charts
+          skip_upload: true
+
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Show Packaged Charts
+        run: ls -l .cr-release-packages

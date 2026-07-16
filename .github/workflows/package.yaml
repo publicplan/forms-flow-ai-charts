@@ -32,9 +32,23 @@ jobs:
         with:
           charts_dir: charts
           skip_upload: true
+          pages_branch: gh-pages-test
+          packages_with_index: false
+          mark_as_latest: false
 
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Show Packaged Charts
         run: ls -l .cr-release-packages
+
+      - name: Login to GHCR via Helm
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$GITHUB_TOKEN" | helm registry login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: Push Charts to GHCR
+        run: |
+          helm push .cr-release-packages/*.tgz oci://ghcr.io/publicplan/forms-flow-ai-charts

@@ -5,12 +5,16 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 0
 
@@ -20,13 +24,30 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Install Helm
-        uses: azure/setup-helm@v4.2.0
+        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
         with:
           version: latest
-      
+
       - name: Package Formsflow 
-        uses: helm/chart-releaser-action@v1.6.0
+        uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f
         with:
           charts_dir: charts
+          skip_upload: true
+          pages_branch: gh-pages
+          packages_with_index: false
+          mark_as_latest: false
+
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Login to GHCR via Helm
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "$GITHUB_TOKEN" | helm registry login ghcr.io -u $GITHUB_ACTOR --password-stdin
+
+      - name: Push Charts to GHCR
+        shell: bash
+        run: |
+          [ -d .cr-release-packages ] && [ -f .cr-release-packages/*.tgz ] && helm push .cr-release-packages/*.tgz oci://ghcr.io/publicplan/forms-flow-ai-charts || echo "No packaged charts found, skipping push."

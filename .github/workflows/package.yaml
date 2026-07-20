@@ -3,7 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - master
+      - feature/actions-expansion
 
 permissions:
   contents: write
@@ -51,5 +51,6 @@ jobs:
           echo "$GITHUB_TOKEN" | helm registry login ghcr.io -u $GITHUB_ACTOR --password-stdin
 
       - name: Push Charts to GHCR
+        shell: bash
         run: |
-          helm push .cr-release-packages/*.tgz oci://ghcr.io/publicplan/forms-flow-ai-charts
+          [ -d .cr-release-packages ] && [ -f .cr-release-packages/*.tgz ] && helm push .cr-release-packages/*.tgz oci://ghcr.io/publicplan/forms-flow-ai-charts || echo "No packaged charts found, skipping push."

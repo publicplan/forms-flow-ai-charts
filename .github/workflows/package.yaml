@@ -33,7 +33,7 @@ jobs:
         with:
           charts_dir: charts
           skip_upload: true
-          pages_branch: gh-pages-test
+          pages_branch: gh-pages
           packages_with_index: false
           mark_as_latest: false
 

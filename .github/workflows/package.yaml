@@ -3,7 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - feature/actions-expansion
+      - master
 
 permissions:
   contents: write

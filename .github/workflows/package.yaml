@@ -40,9 +40,6 @@ jobs:
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Show Packaged Charts
-        run: ls -l .cr-release-packages
-
       - name: Login to GHCR via Helm
         env:
           GITHUB_ACTOR: ${{ github.actor }}
